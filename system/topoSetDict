@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+        // Selecting High Pressure outlet
+    {
+        name    faceGrabbed_1;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+             //box (0.10 -1 -0.0001) (0.1025 1 0.0001);
+             box (0.01199 0.003 -1) (0.01201 0.004 1);
+        }
+    }
+        // Selecting Passive scalar inlet
+    {
+        name    faceGrabbed_2;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+             //box (-0.001 -1 -0.0001) (0.01 1 0.0001);
+             box (-0.0001 0.003 -1) (0.00001 0.004 1);
+        }
+    }
+        // Selecting overflow walls
+    {
+        name    overFlowWall;
+        type    cellSet;
+        action  clear;
+    }
+    {
+        name    overFlowWall;
+        type    cellSet;
+        action  invert;
+    }
+    {
+        name    overFlowWall;
+        type    cellSet;
+        action  delete;
+        source  boxToCell;
+        sourceInfo
+        {
+             box (0.0 0.001 -0.001) (0.003 0.003 0.001);
+             //box (0.004 0.001 -0.001) (0.012 0.003 0.001);
+        }
+    }
+);
+
+// ************************************************************************* //
